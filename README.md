@@ -2,6 +2,12 @@
 
 Una aplicación web interactiva para aprender Python enfocada en AI/ML, diseñada específicamente para desarrolladores con experiencia en Kotlin.
 
+## 🌐 Demo en Vivo
+
+**👉 [https://smoralb.github.io/PythonAiTutorial/](https://smoralb.github.io/PythonAiTutorial/)**
+
+Accede directamente a la aplicación y empieza a aprender Python para AI ahora mismo.
+
 ## ✨ Características
 
 - **🎨 6 Temas Visuales**: Light, Dark, Synthwave, Monokai, Dracula, Nord
