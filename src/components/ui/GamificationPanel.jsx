@@ -35,117 +35,135 @@ const GamificationPanel = () => {
   const xpNeeded = nextLevelXP - progress.xp;
 
   return (
-    <div
-      className="rounded-lg p-4 md:p-6 shadow-lg"
-      style={{
-        backgroundColor: 'var(--card-bg)',
-        border: '1px solid var(--border-color)'
-      }}
-    >
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        {/* Level */}
-        <div className="text-center">
+    <div className="animate-fade-in mb-8">
+      {/* Hero Stats Card */}
+      <div
+        className="card card-hover p-6 md:p-8 mb-6"
+        style={{
+          background: 'var(--gradient-card)',
+          backdropFilter: 'blur(10px)'
+        }}
+      >
+        {/* Header with Tier Badge */}
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 text-gradient">
+              Tu Progreso
+            </h2>
+            <span className="badge badge-primary">
+              {tier}
+            </span>
+          </div>
           <div
-            className="text-3xl md:text-4xl font-bold"
-            style={{ color: 'var(--highlight)' }}
+            className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center text-4xl md:text-5xl font-bold"
+            style={{
+              background: 'var(--gradient-primary)',
+              color: 'white',
+              boxShadow: '0 8px 20px var(--shadow-lg)'
+            }}
           >
             {level}
           </div>
-          <div
-            className="text-sm mt-1"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            Nivel
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-3 gap-4 md:gap-6 mb-6">
+          {/* XP */}
+          <div className="text-center p-4 rounded-xl" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+            <div
+              className="text-2xl md:text-3xl font-bold mb-1"
+              style={{ color: 'var(--text-accent)' }}
+            >
+              {progress.xp}
+            </div>
+            <div
+              className="text-xs md:text-sm font-medium"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              XP Total
+            </div>
+          </div>
+
+          {/* Streak */}
+          <div className="text-center p-4 rounded-xl" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+            <div className="text-2xl md:text-3xl font-bold mb-1">
+              {progress.streak} 🔥
+            </div>
+            <div
+              className="text-xs md:text-sm font-medium"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Racha
+            </div>
+          </div>
+
+          {/* Achievements */}
+          <div className="text-center p-4 rounded-xl" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+            <div
+              className="text-2xl md:text-3xl font-bold mb-1"
+              style={{ color: 'var(--success)' }}
+            >
+              {progress.achievements.length} 🏆
+            </div>
+            <div
+              className="text-xs md:text-sm font-medium"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Logros
+            </div>
           </div>
         </div>
 
-        {/* XP */}
-        <div className="text-center">
-          <div
-            className="text-2xl md:text-3xl font-bold"
-            style={{ color: 'var(--text-accent)' }}
-          >
-            {progress.xp}
+        {/* Progress Bar */}
+        <div>
+          <div className="flex justify-between items-center mb-3">
+            <span
+              className="text-sm md:text-base font-semibold"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              Nivel {level} → {level + 1}
+            </span>
+            <span
+              className="text-xs md:text-sm font-medium px-3 py-1 rounded-full"
+              style={{
+                backgroundColor: 'var(--bg-tertiary)',
+                color: 'var(--text-secondary)'
+              }}
+            >
+              {xpNeeded} XP restantes
+            </span>
           </div>
-          <div
-            className="text-sm mt-1"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            XP Total
+          <div className="progress-bar">
+            <div
+              className="progress-bar-fill"
+              style={{ width: `${levelProgress}%` }}
+            />
+          </div>
+          <div className="flex justify-between mt-2">
+            <span
+              className="text-xs font-medium"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              {currentLevelXP} XP
+            </span>
+            <span
+              className="text-xs font-medium"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              {nextLevelXP} XP
+            </span>
           </div>
         </div>
 
-        {/* Streak */}
-        <div className="text-center">
-          <div
-            className="text-2xl md:text-3xl font-bold"
-            style={{ color: 'var(--warning)' }}
-          >
-            {progress.streak} 🔥
-          </div>
-          <div
-            className="text-sm mt-1"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            Racha
-          </div>
-        </div>
-
-        {/* Achievements */}
-        <div className="text-center">
-          <div
-            className="text-2xl md:text-3xl font-bold"
-            style={{ color: 'var(--success)' }}
-          >
-            {progress.achievements.length} 🏆
-          </div>
-          <div
-            className="text-sm mt-1"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            Logros
-          </div>
-        </div>
-      </div>
-
-      {/* Progress Bar */}
-      <div className="mb-3">
-        <div className="flex justify-between items-center mb-2">
+        {/* Exercises Count */}
+        <div className="mt-6 text-center">
           <span
-            className="text-sm font-medium"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            {tier} - Nivel {level}
-          </span>
-          <span
-            className="text-xs"
+            className="text-sm md:text-base font-medium"
             style={{ color: 'var(--text-secondary)' }}
           >
-            {xpNeeded} XP para nivel {level + 1}
+            💪 {progress.completedExercises.length} ejercicios completados
           </span>
         </div>
-        <div
-          className="w-full h-3 rounded-full overflow-hidden"
-          style={{ backgroundColor: 'var(--bg-tertiary)' }}
-        >
-          <div
-            className="h-full rounded-full transition-all duration-500"
-            style={{
-              width: `${levelProgress}%`,
-              backgroundColor: 'var(--highlight)'
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Completed Exercises Count */}
-      <div className="text-center">
-        <span
-          className="text-sm"
-          style={{ color: 'var(--text-secondary)' }}
-        >
-          {progress.completedExercises.length} ejercicios completados
-        </span>
       </div>
     </div>
   );
