@@ -23,21 +23,22 @@ const ThemeSelector = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200"
+        className="flex items-center gap-3 px-5 py-3 rounded-xl transition-all hover:scale-105"
         style={{
           backgroundColor: 'var(--bg-secondary)',
           color: 'var(--text-primary)',
-          border: '1px solid var(--border-color)'
+          border: '1px solid var(--border-color)',
+          boxShadow: 'var(--elevation-1)'
         }}
       >
         <span className="text-xl">
           {themeManager.getThemeInfo(currentTheme).icon}
         </span>
-        <span className="hidden sm:inline">
+        <span className="hidden sm:inline font-medium">
           {themeManager.getThemeInfo(currentTheme).name}
         </span>
         <svg
-          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -56,31 +57,33 @@ const ThemeSelector = () => {
 
           {/* Dropdown */}
           <div
-            className="absolute right-0 mt-2 w-64 rounded-lg shadow-lg z-50 overflow-hidden"
+            className="absolute right-0 mt-3 w-72 rounded-2xl z-50 overflow-hidden animate-scale-up"
             style={{
               backgroundColor: 'var(--card-bg)',
-              border: '1px solid var(--border-color)'
+              border: '1px solid var(--border-color)',
+              boxShadow: 'var(--elevation-4)'
             }}
           >
-            <div className="p-2">
-              {themes.map((theme) => (
+            <div className="p-3">
+              {themes.map((theme, index) => (
                 <button
                   key={theme.id}
                   onClick={() => handleThemeChange(theme.id)}
-                  className={`w-full flex items-start gap-3 p-3 rounded-lg mb-1 transition-all duration-200 ${
+                  className={`w-full flex items-start gap-4 p-4 rounded-xl mb-2 last:mb-0 transition-all hover:scale-[1.02] ${
                     currentTheme === theme.id ? 'ring-2' : ''
                   }`}
                   style={{
                     backgroundColor: currentTheme === theme.id ? 'var(--bg-tertiary)' : 'transparent',
                     color: 'var(--text-primary)',
-                    ringColor: 'var(--highlight)'
+                    ringColor: 'var(--highlight)',
+                    animationDelay: `${index * 50}ms`
                   }}
                 >
                   <span className="text-2xl">{theme.icon}</span>
                   <div className="text-left flex-1">
                     <div className="font-semibold">{theme.name}</div>
                     <div
-                      className="text-xs mt-1"
+                      className="text-xs mt-2 leading-relaxed"
                       style={{ color: 'var(--text-secondary)' }}
                     >
                       {theme.description}
@@ -88,7 +91,7 @@ const ThemeSelector = () => {
                   </div>
                   {currentTheme === theme.id && (
                     <svg
-                      className="w-5 h-5 flex-shrink-0"
+                      className="w-5 h-5 flex-shrink-0 animate-pop-in"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"

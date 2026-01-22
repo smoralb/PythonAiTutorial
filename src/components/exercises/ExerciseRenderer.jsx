@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { progressManager } from '../../utils/progressManager';
 import { XP_REWARDS } from '../../utils/xpCalculator';
 
-const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
+const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete, animationDelay = 0 }) => {
   const [userAnswer, setUserAnswer] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -64,14 +64,20 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
       case 'quiz':
       case 'predict-output':
         return (
-          <div className="space-y-3">
-            <p className="mb-4" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '0.9375rem', lineHeight: 1.6 }}>
               {exercise.question}
             </p>
             {exercise.code && (
               <pre
-                className="p-4 rounded-lg mb-4 overflow-x-auto"
-                style={{ backgroundColor: 'var(--bg-tertiary)' }}
+                style={{
+                  backgroundColor: 'var(--bg-tertiary)',
+                  padding: '1rem',
+                  borderRadius: '0.75rem',
+                  marginBottom: '0.5rem',
+                  overflowX: 'auto',
+                  fontSize: '0.8125rem'
+                }}
               >
                 <code style={{ color: 'var(--text-primary)' }}>{exercise.code}</code>
               </pre>
@@ -81,8 +87,14 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
                 key={index}
                 onClick={() => setSelectedOption(index)}
                 disabled={showFeedback}
-                className="w-full text-left p-4 rounded-lg border-2 transition-all"
                 style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '0.875rem 1rem',
+                  borderRadius: '0.75rem',
+                  border: '2px solid',
+                  fontSize: '0.9375rem',
+                  transition: 'all 0.2s ease',
                   backgroundColor:
                     selectedOption === index
                       ? 'var(--bg-tertiary)'
@@ -93,7 +105,8 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
                       : selectedOption === index
                       ? 'var(--highlight)'
                       : 'var(--border-color)',
-                  color: 'var(--text-primary)'
+                  color: 'var(--text-primary)',
+                  boxShadow: selectedOption === index ? 'var(--elevation-1)' : 'none'
                 }}
               >
                 {option}
@@ -104,13 +117,18 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
 
       case 'fill-blank':
         return (
-          <div className="space-y-4">
-            <p className="mb-4" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9375rem', lineHeight: 1.6 }}>
               {exercise.question}
             </p>
             <pre
-              className="p-4 rounded-lg overflow-x-auto"
-              style={{ backgroundColor: 'var(--bg-tertiary)' }}
+              style={{
+                backgroundColor: 'var(--bg-tertiary)',
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                overflowX: 'auto',
+                fontSize: '0.8125rem'
+              }}
             >
               <code style={{ color: 'var(--text-primary)' }}>{exercise.code}</code>
             </pre>
@@ -120,35 +138,36 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
               onChange={(e) => setUserAnswer(e.target.value)}
               placeholder="Separa respuestas con comas"
               disabled={showFeedback}
-              className="w-full p-3 rounded-lg border"
-              style={{
-                backgroundColor: 'var(--bg-secondary)',
-                borderColor: 'var(--border-color)',
-                color: 'var(--text-primary)'
-              }}
+              className="input-m3"
+              style={{ fontSize: '0.9375rem', padding: '0.875rem' }}
             />
           </div>
         );
 
       case 'kotlin-translate':
         return (
-          <div className="space-y-4">
-            <p className="mb-4" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9375rem', lineHeight: 1.6 }}>
               {exercise.question}
             </p>
             <div>
-              <label className="block mb-2 text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
                 Código Kotlin:
               </label>
               <pre
-                className="p-4 rounded-lg overflow-x-auto"
-                style={{ backgroundColor: 'var(--bg-tertiary)' }}
+                style={{
+                  backgroundColor: 'var(--bg-tertiary)',
+                  padding: '1rem',
+                  borderRadius: '0.75rem',
+                  overflowX: 'auto',
+                  fontSize: '0.8125rem'
+                }}
               >
                 <code style={{ color: 'var(--text-primary)' }}>{exercise.kotlinCode}</code>
               </pre>
             </div>
             <div>
-              <label className="block mb-2 text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
                 Tu código Python:
               </label>
               <textarea
@@ -156,12 +175,8 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
                 onChange={(e) => setUserAnswer(e.target.value)}
                 disabled={showFeedback}
                 rows={4}
-                className="w-full p-3 rounded-lg border font-mono"
-                style={{
-                  backgroundColor: 'var(--bg-secondary)',
-                  borderColor: 'var(--border-color)',
-                  color: 'var(--text-primary)'
-                }}
+                className="textarea-m3 font-mono"
+                style={{ fontSize: '0.875rem', padding: '0.875rem' }}
               />
             </div>
           </div>
@@ -169,21 +184,24 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
 
       case 'code-challenge':
         return (
-          <div className="space-y-4">
-            <p className="mb-4" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <p style={{ color: 'var(--text-primary)', fontSize: '0.9375rem', lineHeight: 1.6 }}>
               {exercise.question}
             </p>
             {exercise.hints && (
               <div
-                className="p-4 rounded-lg"
-                style={{ backgroundColor: 'var(--bg-tertiary)' }}
+                style={{
+                  backgroundColor: 'var(--bg-tertiary)',
+                  padding: '1rem',
+                  borderRadius: '0.75rem'
+                }}
               >
-                <p className="font-semibold mb-2" style={{ color: 'var(--text-accent)' }}>
+                <p style={{ fontWeight: 600, marginBottom: '0.625rem', fontSize: '0.875rem', color: 'var(--text-accent)' }}>
                   Pistas:
                 </p>
-                <ul className="list-disc list-inside space-y-1">
+                <ul style={{ listStyleType: 'disc', paddingLeft: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
                   {exercise.hints.map((hint, i) => (
-                    <li key={i} style={{ color: 'var(--text-secondary)' }}>
+                    <li key={i} style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
                       {hint}
                     </li>
                   ))}
@@ -194,14 +212,10 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
               disabled={showFeedback}
-              rows={6}
+              rows={5}
               placeholder="Escribe tu código aquí..."
-              className="w-full p-3 rounded-lg border font-mono"
-              style={{
-                backgroundColor: 'var(--bg-secondary)',
-                borderColor: 'var(--border-color)',
-                color: 'var(--text-primary)'
-              }}
+              className="textarea-m3 font-mono"
+              style={{ fontSize: '0.875rem', padding: '0.875rem' }}
             />
           </div>
         );
@@ -213,17 +227,23 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
 
   return (
     <div
-      className="p-6 rounded-lg shadow-lg mb-6"
+      className="exercise-card-mobile"
       style={{
         backgroundColor: 'var(--card-bg)',
-        border: '1px solid var(--border-color)'
+        border: '1px solid var(--border-color)',
+        boxShadow: 'var(--elevation-1)',
+        padding: '1.25rem',
+        borderRadius: '1rem'
       }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
         <span
-          className="px-3 py-1 rounded-full text-sm font-semibold"
           style={{
+            padding: '0.5rem 0.875rem',
+            borderRadius: '0.625rem',
+            fontSize: '0.8125rem',
+            fontWeight: 600,
             backgroundColor: 'var(--bg-tertiary)',
             color: 'var(--text-accent)'
           }}
@@ -231,7 +251,9 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
           {getExerciseTypeLabel(exercise.type)}
         </span>
         {progressManager.isExerciseCompleted(moduleId, lessonId, exercise.id) && (
-          <span style={{ color: 'var(--success)' }}>✓ Completado</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontWeight: 500, fontSize: '0.875rem', color: 'var(--success)' }}>
+            ✓ Completado
+          </span>
         )}
       </div>
 
@@ -241,27 +263,38 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
       {/* Feedback */}
       {showFeedback && (
         <div
-          className="mt-4 p-4 rounded-lg"
           style={{
+            marginTop: '1.25rem',
+            padding: '1rem',
+            borderRadius: '0.875rem',
             backgroundColor: isCorrect ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-            border: `1px solid ${isCorrect ? 'var(--success)' : 'var(--error)'}`
+            border: `2px solid ${isCorrect ? 'var(--success)' : 'var(--error)'}`
           }}
         >
           <p
-            className="font-semibold mb-2"
-            style={{ color: isCorrect ? 'var(--success)' : 'var(--error)' }}
+            style={{
+              fontWeight: 700,
+              fontSize: '1rem',
+              marginBottom: '0.75rem',
+              color: isCorrect ? 'var(--success)' : 'var(--error)'
+            }}
           >
             {isCorrect ? '✓ ¡Correcto!' : '✗ Incorrecto'}
           </p>
-          <p style={{ color: 'var(--text-primary)' }}>{exercise.explanation}</p>
+          <p style={{ lineHeight: 1.6, fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{exercise.explanation}</p>
           {!isCorrect && exercise.correctAnswer && exercise.type !== 'quiz' && exercise.type !== 'predict-output' && (
-            <div className="mt-3">
-              <p className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>
+            <div style={{ marginTop: '1rem' }}>
+              <p style={{ fontWeight: 600, marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
                 Solución:
               </p>
               <pre
-                className="p-3 rounded overflow-x-auto"
-                style={{ backgroundColor: 'var(--bg-tertiary)' }}
+                style={{
+                  padding: '1rem',
+                  borderRadius: '0.625rem',
+                  overflowX: 'auto',
+                  fontSize: '0.8125rem',
+                  backgroundColor: 'var(--bg-tertiary)'
+                }}
               >
                 <code style={{ color: 'var(--text-primary)' }}>{exercise.correctAnswer}</code>
               </pre>
@@ -271,15 +304,17 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
       )}
 
       {/* Actions */}
-      <div className="mt-4 flex gap-3">
+      <div style={{ marginTop: '1.25rem', display: 'flex', gap: '0.75rem' }}>
         {!showFeedback ? (
           <button
             onClick={handleSubmit}
             disabled={(exercise.type === 'quiz' || exercise.type === 'predict-output') && selectedOption === null}
-            className="px-6 py-3 rounded-lg font-semibold transition-all"
+            className="btn-primary btn-mobile"
             style={{
-              backgroundColor: 'var(--highlight)',
-              color: '#fff',
+              padding: '0.875rem 1.5rem',
+              borderRadius: '0.625rem',
+              fontWeight: 600,
+              fontSize: '0.9375rem',
               opacity: (exercise.type === 'quiz' || exercise.type === 'predict-output') && selectedOption === null ? 0.5 : 1
             }}
           >
@@ -288,10 +323,12 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete }) => {
         ) : (
           <button
             onClick={handleReset}
-            className="px-6 py-3 rounded-lg font-semibold transition-all"
+            className="btn-secondary btn-mobile"
             style={{
-              backgroundColor: 'var(--bg-tertiary)',
-              color: 'var(--text-primary)'
+              padding: '0.875rem 1.5rem',
+              borderRadius: '0.625rem',
+              fontWeight: 600,
+              fontSize: '0.9375rem'
             }}
           >
             Intentar de Nuevo

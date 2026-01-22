@@ -54,15 +54,16 @@ function App() {
           borderBottom: '1px solid var(--border-color)'
         }}
       >
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
+        <div className="container mx-auto header-mobile" style={{ padding: '1.25rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             {currentView !== 'dashboard' && (
               <button
                 onClick={handleBack}
-                className="p-2 rounded-lg transition-all"
+                className="px-4 py-3 rounded-xl transition-all hover:scale-105"
                 style={{
                   backgroundColor: 'var(--bg-secondary)',
-                  color: 'var(--text-primary)'
+                  color: 'var(--text-primary)',
+                  boxShadow: 'var(--elevation-1)'
                 }}
               >
                 ← Volver
@@ -80,22 +81,26 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6 md:py-8">
+      <main className="container mx-auto" style={{ padding: '2rem 1.5rem' }}>
         {/* Dashboard View */}
         {currentView === 'dashboard' && (
           <div>
             <GamificationPanel key={refreshKey} />
 
-            <div className="mt-8">
+            <div style={{ marginTop: '3rem' }}>
               <h2
-                className="text-2xl font-bold mb-6"
-                style={{ color: 'var(--text-primary)' }}
+                style={{
+                  color: 'var(--text-primary)',
+                  fontSize: '1.75rem',
+                  fontWeight: 700,
+                  marginBottom: '2rem'
+                }}
               >
                 Módulos de Aprendizaje
               </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {modulesData.map((module) => {
+              <div className="grid-responsive" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                {modulesData.map((module, index) => {
                   const totalExercises = module.lessons.reduce(
                     (sum, lesson) => sum + lesson.exercises.length,
                     0
@@ -109,52 +114,78 @@ function App() {
                     <button
                       key={module.id}
                       onClick={() => handleModuleClick(module)}
-                      className="text-left p-6 rounded-lg shadow-lg transition-all hover:scale-105"
+                      className="text-left transition-all hover:scale-[1.02] card-hover card-mobile"
                       style={{
                         backgroundColor: 'var(--card-bg)',
-                        border: '1px solid var(--border-color)'
+                        border: '1px solid var(--border-color)',
+                        boxShadow: 'var(--elevation-1)',
+                        padding: '1.5rem',
+                        borderRadius: '1.25rem'
                       }}
                     >
-                      <div className="text-4xl mb-3">{module.icon}</div>
+                      <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{module.icon}</div>
                       <h3
-                        className="text-xl font-bold mb-2"
-                        style={{ color: 'var(--text-primary)' }}
+                        style={{
+                          color: 'var(--text-primary)',
+                          fontSize: '1.125rem',
+                          fontWeight: 700,
+                          marginBottom: '0.75rem'
+                        }}
                       >
                         {module.title}
                       </h3>
                       <p
-                        className="text-sm mb-4"
-                        style={{ color: 'var(--text-secondary)' }}
+                        style={{
+                          color: 'var(--text-secondary)',
+                          fontSize: '0.875rem',
+                          marginBottom: '1.25rem',
+                          lineHeight: 1.6
+                        }}
                       >
                         {module.description}
                       </p>
 
                       {/* Progress Bar */}
-                      <div>
+                      <div style={{ marginBottom: '1rem' }}>
                         <div
-                          className="flex justify-between text-xs mb-2"
-                          style={{ color: 'var(--text-secondary)' }}
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            fontSize: '0.75rem',
+                            marginBottom: '0.5rem',
+                            color: 'var(--text-secondary)'
+                          }}
                         >
                           <span>Progreso</span>
-                          <span>{progress}%</span>
+                          <span style={{ fontWeight: 600 }}>{progress}%</span>
                         </div>
                         <div
-                          className="w-full h-2 rounded-full overflow-hidden"
-                          style={{ backgroundColor: 'var(--bg-tertiary)' }}
+                          style={{
+                            width: '100%',
+                            height: '0.5rem',
+                            borderRadius: '999px',
+                            overflow: 'hidden',
+                            backgroundColor: 'var(--bg-tertiary)'
+                          }}
                         >
                           <div
-                            className="h-full rounded-full transition-all duration-500"
                             style={{
+                              height: '100%',
+                              borderRadius: '999px',
                               width: `${progress}%`,
-                              backgroundColor: 'var(--success)'
+                              background: 'var(--gradient-success)',
+                              transition: 'width 0.5s ease'
                             }}
                           />
                         </div>
                       </div>
 
                       <div
-                        className="mt-3 text-xs"
-                        style={{ color: 'var(--text-accent)' }}
+                        style={{
+                          fontSize: '0.75rem',
+                          fontWeight: 500,
+                          color: 'var(--text-accent)'
+                        }}
                       >
                         {module.lessons.length} lecciones • {totalExercises} ejercicios
                       </div>
@@ -169,23 +200,30 @@ function App() {
         {/* Module View */}
         {currentView === 'module' && selectedModule && (
           <div>
-            <div className="mb-8">
-              <div className="text-5xl mb-4">{selectedModule.icon}</div>
+            <div style={{ marginBottom: '3rem' }}>
+              <div style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>{selectedModule.icon}</div>
               <h2
-                className="text-3xl font-bold mb-3"
-                style={{ color: 'var(--text-primary)' }}
+                style={{
+                  color: 'var(--text-primary)',
+                  fontSize: '2rem',
+                  fontWeight: 700,
+                  marginBottom: '1rem'
+                }}
               >
                 {selectedModule.title}
               </h2>
               <p
-                className="text-lg"
-                style={{ color: 'var(--text-secondary)' }}
+                style={{
+                  color: 'var(--text-secondary)',
+                  fontSize: '1.125rem',
+                  lineHeight: 1.6
+                }}
               >
                 {selectedModule.description}
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               {selectedModule.lessons.map((lesson, index) => {
                 const completedExercises = lesson.exercises.filter((ex) =>
                   progressManager.isExerciseCompleted(
@@ -199,31 +237,51 @@ function App() {
                   <button
                     key={lesson.id}
                     onClick={() => handleLessonClick(lesson)}
-                    className="w-full text-left p-6 rounded-lg shadow-lg transition-all hover:scale-102"
+                    className="text-left transition-all card-hover"
                     style={{
+                      width: '100%',
                       backgroundColor: 'var(--card-bg)',
-                      border: '1px solid var(--border-color)'
+                      border: '1px solid var(--border-color)',
+                      boxShadow: 'var(--elevation-1)',
+                      padding: '1.75rem',
+                      borderRadius: '1.25rem'
                     }}
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
+                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '1rem' }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.875rem' }}>
                           <span
-                            className="text-2xl font-bold"
-                            style={{ color: 'var(--highlight)' }}
+                            style={{
+                              fontSize: '1.25rem',
+                              fontWeight: 700,
+                              width: '2.5rem',
+                              height: '2.5rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              borderRadius: '0.75rem',
+                              color: 'white',
+                              background: 'var(--gradient-primary)'
+                            }}
                           >
                             {index + 1}
                           </span>
                           <h3
-                            className="text-xl font-bold"
-                            style={{ color: 'var(--text-primary)' }}
+                            style={{
+                              fontSize: '1.25rem',
+                              fontWeight: 700,
+                              color: 'var(--text-primary)'
+                            }}
                           >
                             {lesson.title}
                           </h3>
                         </div>
                         <div
-                          className="text-sm"
-                          style={{ color: 'var(--text-secondary)' }}
+                          style={{
+                            fontSize: '0.9375rem',
+                            marginLeft: '3.5rem',
+                            color: 'var(--text-secondary)'
+                          }}
                         >
                           {lesson.exercises.length} ejercicios •{' '}
                           {completedExercises}/{lesson.exercises.length} completados
@@ -231,8 +289,10 @@ function App() {
                       </div>
                       {completedExercises === lesson.exercises.length && (
                         <span
-                          className="text-2xl"
-                          style={{ color: 'var(--success)' }}
+                          style={{
+                            fontSize: '1.5rem',
+                            color: 'var(--success)'
+                          }}
                         >
                           ✓
                         </span>
@@ -248,33 +308,66 @@ function App() {
         {/* Lesson View */}
         {currentView === 'lesson' && selectedLesson && (
           <div>
+            {/* Lesson Header */}
+            <div style={{ marginBottom: '1.5rem' }}>
+              <h2
+                className="title-responsive"
+                style={{
+                  color: 'var(--text-primary)',
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
+                  marginBottom: '0.625rem'
+                }}
+              >
+                {selectedLesson.title}
+              </h2>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.875rem',
+                  color: 'var(--text-secondary)'
+                }}
+              >
+                <span>{selectedLesson.exercises?.length || 0} ejercicios</span>
+              </div>
+            </div>
+
+            {/* Lesson Content Card */}
             <div
-              className="prose max-w-none p-6 rounded-lg mb-8"
+              className="lesson-content-mobile"
               style={{
                 backgroundColor: 'var(--card-bg)',
                 border: '1px solid var(--border-color)',
-                color: 'var(--text-primary)'
+                color: 'var(--text-primary)',
+                boxShadow: 'var(--elevation-1)',
+                padding: '1.5rem',
+                borderRadius: '1rem',
+                marginBottom: '2rem'
               }}
             >
-              <h2 style={{ color: 'var(--text-primary)' }}>
-                {selectedLesson.title}
-              </h2>
-              <div style={{ color: 'var(--text-primary)' }}>
+              <div className="lesson-content" style={{ color: 'var(--text-primary)' }}>
                 <ReactMarkdown
                   components={{
-                    h1: ({node, ...props}) => <h1 style={{ color: 'var(--text-primary)' }} {...props} />,
-                    h2: ({node, ...props}) => <h2 style={{ color: 'var(--text-primary)' }} {...props} />,
-                    h3: ({node, ...props}) => <h3 style={{ color: 'var(--text-primary)' }} {...props} />,
-                    p: ({node, ...props}) => <p style={{ color: 'var(--text-primary)' }} {...props} />,
+                    h1: () => null, // El título h1 ya se muestra fuera del contenido
+                    h2: ({node, ...props}) => <h2 style={{ color: 'var(--text-primary)', marginTop: '2.5rem', marginBottom: '1.25rem', fontSize: '1.5rem', fontWeight: 700 }} {...props} />,
+                    h3: ({node, ...props}) => <h3 style={{ color: 'var(--text-primary)', marginTop: '2rem', marginBottom: '1rem', fontSize: '1.25rem', fontWeight: 600 }} {...props} />,
+                    p: ({node, ...props}) => <p style={{ color: 'var(--text-primary)', marginBottom: '1.25rem', lineHeight: 1.8 }} {...props} />,
                     code: ({node, inline, ...props}) =>
                       inline ? (
-                        <code style={{ backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-accent)', padding: '2px 6px', borderRadius: '4px' }} {...props} />
+                        <code style={{ backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-accent)', padding: '4px 10px', borderRadius: '6px', fontSize: '0.9em' }} {...props} />
                       ) : (
                         <code style={{ color: 'var(--text-primary)' }} {...props} />
                       ),
-                    pre: ({node, ...props}) => <pre style={{ backgroundColor: 'var(--bg-tertiary)', padding: '1rem', borderRadius: '0.5rem', overflowX: 'auto' }} {...props} />,
-                    strong: ({node, ...props}) => <strong style={{ color: 'var(--highlight)' }} {...props} />,
-                    li: ({node, ...props}) => <li style={{ color: 'var(--text-primary)' }} {...props} />,
+                    pre: ({node, ...props}) => <pre style={{ backgroundColor: 'var(--bg-tertiary)', padding: '1.5rem', borderRadius: '16px', overflowX: 'auto', marginTop: '1.5rem', marginBottom: '1.5rem', border: '1px solid var(--border-color)' }} {...props} />,
+                    strong: ({node, ...props}) => <strong style={{ color: 'var(--highlight)', fontWeight: 600 }} {...props} />,
+                    li: ({node, ...props}) => <li style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', lineHeight: 1.7 }} {...props} />,
+                    ul: ({node, ...props}) => <ul style={{ marginTop: '1.25rem', marginBottom: '1.25rem', marginLeft: '1.5rem', listStyleType: 'disc' }} {...props} />,
+                    ol: ({node, ...props}) => <ol style={{ marginTop: '1.25rem', marginBottom: '1.25rem', marginLeft: '1.5rem', listStyleType: 'decimal' }} {...props} />,
+                    a: ({node, ...props}) => <a style={{ color: 'var(--text-accent)', textDecoration: 'underline' }} {...props} />,
+                    blockquote: ({node, ...props}) => <blockquote style={{ borderLeft: '4px solid var(--highlight)', paddingLeft: '1.5rem', marginTop: '1.5rem', marginBottom: '1.5rem', fontStyle: 'italic', color: 'var(--text-secondary)' }} {...props} />,
+                    hr: ({node, ...props}) => <hr style={{ border: 'none', borderTop: '1px solid var(--border-color)', marginTop: '2rem', marginBottom: '2rem' }} {...props} />,
                   }}
                 >
                   {selectedLesson.content}
@@ -284,20 +377,28 @@ function App() {
 
             <div>
               <h3
-                className="text-2xl font-bold mb-6"
-                style={{ color: 'var(--text-primary)' }}
+                className="subtitle-responsive"
+                style={{
+                  color: 'var(--text-primary)',
+                  fontSize: '1.25rem',
+                  fontWeight: 700,
+                  marginBottom: '1.25rem'
+                }}
               >
                 Ejercicios
               </h3>
-              {selectedLesson.exercises.map((exercise) => (
-                <ExerciseRenderer
-                  key={exercise.id}
-                  exercise={exercise}
-                  moduleId={selectedModule.id}
-                  lessonId={selectedLesson.id}
-                  onComplete={handleExerciseComplete}
-                />
-              ))}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                {selectedLesson.exercises.map((exercise, index) => (
+                  <ExerciseRenderer
+                    key={exercise.id}
+                    exercise={exercise}
+                    moduleId={selectedModule.id}
+                    lessonId={selectedLesson.id}
+                    onComplete={handleExerciseComplete}
+                    animationDelay={index * 100}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -305,13 +406,13 @@ function App() {
 
       {/* Footer */}
       <footer
-        className="mt-12 py-6 text-center"
+        className="mt-16 py-10 text-center"
         style={{
           borderTop: '1px solid var(--border-color)',
           color: 'var(--text-secondary)'
         }}
       >
-        <p>Python for AI Engineers • Hecho con React + Vite + Tailwind CSS</p>
+        <p className="text-sm">Python for AI Engineers • Hecho con React + Vite + Tailwind CSS</p>
       </footer>
     </div>
   );

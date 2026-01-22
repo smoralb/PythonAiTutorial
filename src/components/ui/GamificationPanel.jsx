@@ -35,19 +35,23 @@ const GamificationPanel = () => {
   const xpNeeded = nextLevelXP - progress.xp;
 
   return (
-    <div className="animate-fade-in mb-8">
+    <div style={{ marginBottom: '2rem' }}>
       {/* Hero Stats Card */}
       <div
-        className="card card-hover p-6 md:p-8 mb-6"
+        className="card-mobile"
         style={{
           background: 'var(--gradient-card)',
-          backdropFilter: 'blur(10px)'
+          backdropFilter: 'blur(10px)',
+          boxShadow: 'var(--elevation-2)',
+          padding: '1.5rem',
+          borderRadius: '1.25rem',
+          border: '1px solid var(--border-color)'
         }}
       >
         {/* Header with Tier Badge */}
-        <div className="flex justify-between items-center mb-6">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-2 text-gradient">
+            <h2 className="text-gradient title-responsive" style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>
               Tu Progreso
             </h2>
             <span className="badge badge-primary">
@@ -55,11 +59,19 @@ const GamificationPanel = () => {
             </span>
           </div>
           <div
-            className="w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center text-4xl md:text-5xl font-bold"
+            className="level-badge-mobile"
             style={{
+              width: '5rem',
+              height: '5rem',
+              borderRadius: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '2rem',
+              fontWeight: 700,
               background: 'var(--gradient-primary)',
               color: 'white',
-              boxShadow: '0 8px 20px var(--shadow-lg)'
+              boxShadow: 'var(--elevation-3)'
             }}
           >
             {level}
@@ -67,47 +79,90 @@ const GamificationPanel = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-3 gap-4 md:gap-6 mb-6">
+        <div className="stats-grid-mobile" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
           {/* XP */}
-          <div className="text-center p-4 rounded-xl" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+          <div
+            className="stat-card-mobile"
+            style={{
+              textAlign: 'center',
+              padding: '1rem',
+              borderRadius: '0.875rem',
+              backgroundColor: 'var(--bg-tertiary)'
+            }}
+          >
             <div
-              className="text-2xl md:text-3xl font-bold mb-1"
-              style={{ color: 'var(--text-accent)' }}
+              className="stat-value-mobile"
+              style={{
+                fontSize: '1.375rem',
+                fontWeight: 700,
+                marginBottom: '0.375rem',
+                color: 'var(--text-accent)'
+              }}
             >
               {progress.xp}
             </div>
             <div
-              className="text-xs md:text-sm font-medium"
-              style={{ color: 'var(--text-secondary)' }}
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: 500,
+                color: 'var(--text-secondary)'
+              }}
             >
               XP Total
             </div>
           </div>
 
           {/* Streak */}
-          <div className="text-center p-4 rounded-xl" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
-            <div className="text-2xl md:text-3xl font-bold mb-1">
+          <div
+            className="stat-card-mobile"
+            style={{
+              textAlign: 'center',
+              padding: '1rem',
+              borderRadius: '0.875rem',
+              backgroundColor: 'var(--bg-tertiary)'
+            }}
+          >
+            <div className="stat-value-mobile" style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '0.375rem' }}>
               {progress.streak} 🔥
             </div>
             <div
-              className="text-xs md:text-sm font-medium"
-              style={{ color: 'var(--text-secondary)' }}
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: 500,
+                color: 'var(--text-secondary)'
+              }}
             >
               Racha
             </div>
           </div>
 
           {/* Achievements */}
-          <div className="text-center p-4 rounded-xl" style={{ backgroundColor: 'var(--bg-tertiary)' }}>
+          <div
+            className="stat-card-mobile"
+            style={{
+              textAlign: 'center',
+              padding: '1rem',
+              borderRadius: '0.875rem',
+              backgroundColor: 'var(--bg-tertiary)'
+            }}
+          >
             <div
-              className="text-2xl md:text-3xl font-bold mb-1"
-              style={{ color: 'var(--success)' }}
+              className="stat-value-mobile"
+              style={{
+                fontSize: '1.375rem',
+                fontWeight: 700,
+                marginBottom: '0.375rem',
+                color: 'var(--success)'
+              }}
             >
               {progress.achievements.length} 🏆
             </div>
             <div
-              className="text-xs md:text-sm font-medium"
-              style={{ color: 'var(--text-secondary)' }}
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: 500,
+                color: 'var(--text-secondary)'
+              }}
             >
               Logros
             </div>
@@ -116,16 +171,22 @@ const GamificationPanel = () => {
 
         {/* Progress Bar */}
         <div>
-          <div className="flex justify-between items-center mb-3">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.625rem', flexWrap: 'wrap', gap: '0.5rem' }}>
             <span
-              className="text-sm md:text-base font-semibold"
-              style={{ color: 'var(--text-primary)' }}
+              style={{
+                fontSize: '0.875rem',
+                fontWeight: 600,
+                color: 'var(--text-primary)'
+              }}
             >
               Nivel {level} → {level + 1}
             </span>
             <span
-              className="text-xs md:text-sm font-medium px-3 py-1 rounded-full"
               style={{
+                fontSize: '0.75rem',
+                fontWeight: 500,
+                padding: '0.375rem 0.75rem',
+                borderRadius: '999px',
                 backgroundColor: 'var(--bg-tertiary)',
                 color: 'var(--text-secondary)'
               }}
@@ -139,16 +200,22 @@ const GamificationPanel = () => {
               style={{ width: `${levelProgress}%` }}
             />
           </div>
-          <div className="flex justify-between mt-2">
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem' }}>
             <span
-              className="text-xs font-medium"
-              style={{ color: 'var(--text-secondary)' }}
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: 500,
+                color: 'var(--text-secondary)'
+              }}
             >
               {currentLevelXP} XP
             </span>
             <span
-              className="text-xs font-medium"
-              style={{ color: 'var(--text-secondary)' }}
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: 500,
+                color: 'var(--text-secondary)'
+              }}
             >
               {nextLevelXP} XP
             </span>
@@ -156,10 +223,17 @@ const GamificationPanel = () => {
         </div>
 
         {/* Exercises Count */}
-        <div className="mt-6 text-center">
+        <div style={{ marginTop: '1.25rem', textAlign: 'center' }}>
           <span
-            className="text-sm md:text-base font-medium"
-            style={{ color: 'var(--text-secondary)' }}
+            style={{
+              fontSize: '0.8125rem',
+              fontWeight: 500,
+              padding: '0.625rem 1rem',
+              borderRadius: '0.625rem',
+              display: 'inline-block',
+              color: 'var(--text-secondary)',
+              backgroundColor: 'var(--bg-tertiary)'
+            }}
           >
             💪 {progress.completedExercises.length} ejercicios completados
           </span>
