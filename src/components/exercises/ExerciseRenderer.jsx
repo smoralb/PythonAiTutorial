@@ -8,6 +8,12 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete, animationD
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
 
+  // Normaliza texto eliminando todos los espacios para comparación flexible
+  const normalizeForComparison = (text) => {
+    if (!text) return '';
+    return text.replace(/\s+/g, '');
+  };
+
   const handleSubmit = () => {
     let correct = false;
 
@@ -18,13 +24,15 @@ const ExerciseRenderer = ({ exercise, moduleId, lessonId, onComplete, animationD
         break;
       case 'fill-blank':
         const answers = userAnswer.split(',').map(a => a.trim());
-        correct = JSON.stringify(answers) === JSON.stringify(exercise.blanks);
+        const normalizedAnswers = answers.map(a => normalizeForComparison(a));
+        const normalizedBlanks = exercise.blanks.map(b => normalizeForComparison(b));
+        correct = JSON.stringify(normalizedAnswers) === JSON.stringify(normalizedBlanks);
         break;
       case 'kotlin-translate':
       case 'code-challenge':
-        // Simple validation - en producción usarías un evaluador más sofisticado
-        correct = userAnswer.trim().replace(/\s+/g, ' ') ===
-                  exercise.correctAnswer?.trim().replace(/\s+/g, ' ');
+        // Comparación flexible que ignora diferencias de espacios
+        correct = normalizeForComparison(userAnswer) ===
+                  normalizeForComparison(exercise.correctAnswer);
         break;
       default:
         correct = false;

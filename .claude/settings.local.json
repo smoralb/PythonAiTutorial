@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:m3.material.io)",
+      "WebSearch",
+      "WebFetch(domain:supercharge.design)",
+      "WebFetch(domain:expressivemotion.pages.dev)",
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nImplement Material Design 3 styling with responsive mobile support\n\n- Add M3 spacing system with 4dp-based tokens\n- Add M3 elevation system \\(6 levels with shadows\\)\n- Add M3 Expressive animations \\(fadeIn, scaleUp, popIn, shake, successBounce\\)\n- Increase padding and spacing throughout the app for better readability\n- Add responsive CSS media queries for mobile \\(<768px\\) and tablet \\(769-1024px\\)\n- Update GamificationPanel with improved stats grid layout\n- Update ExerciseRenderer with better spacing for options and feedback\n- Update ThemeSelector dropdown with improved dimensions\n- Add touch-friendly sizing \\(min 44px targets\\)\n- Add prefers-reduced-motion support for accessibility\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push)",
+      "Bash(npm run deploy:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
